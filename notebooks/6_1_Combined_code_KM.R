@@ -43,7 +43,7 @@ km_battery_carpet <- survfit(
 
 print(summary(km_battery))
 print(summary(km_battery_pets))
-print(summary(ckm_battery_carpet))
+print(summary(km_battery_carpet))
 
 km_plot <- ggsurvplot(km_battery,
     conf.int = TRUE,
