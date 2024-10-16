@@ -49,9 +49,33 @@ df$time_to_failure[df$time_to_failure < 0] <- NA
 df$status <- df$had_failure
 
 # Fit Kaplan-Meier curve for each sensor type (battery, impact, ir)
-km_battery <- survfit(Surv(time_to_failure, battery_status) ~ pets, data = df)
+km_battery <- survfit(Surv(time_to_failure, status) ~ battery_status, data = df)
 km_impact <- survfit(Surv(time_to_failure, status) ~ impact_status, data = df)
 km_ir <- survfit(Surv(time_to_failure, status) ~ ir_status, data = df)
+
+#Fit kaplan-meir for battery against pets
+
+km_battery_pets <- survfit(Surv(time_to_failure, battery_status) ~ pets, data = df)
+
+#Fit kaplan-meir for battery against carpet
+
+km_battery_carpet <- survfit(Surv(time_to_failure, battery_status) ~ carpet_score, data = df)
+
+#Fit Kaplan Meir for impact against pets
+
+km_impact_pets <- survfit(Surv(time_to_failure, impact_status) ~ pets, data = df)
+
+#Fit Kaplan Meir for impact against carpet
+
+km_impact_carpet <- survfit(Surv(time_to_failure, impact_status) ~ carpet_score, data = df)
+
+#Fit Kaplan Meir for IR against pets 
+
+km_ir_pets <- survfit(Surv(time_to_failure, ir_status) ~ pets, data = df)
+
+#Fit Kaplan Meir for IR against carpet 
+
+km_ir_carpet <- survfit(Surv(time_to_failure, ir_status) ~ carpet_score, data = df)
 
 # Open a PDF file to save the plots
 pdf("Kaplan_Meier_Sensor_Plots_new_new.pdf", width = 10, height = 10)
@@ -74,6 +98,48 @@ ggsurvplot(km_ir, conf.int = TRUE,
            xlab = "Time (Total Cleaning Time)",
            ylab = "Survival Probability")
 
+#Plot for Battery against pets 
+
+ggsurvplot(km_battery_pets, conf.int = TRUE, 
+           title = "Kaplan-Meier Curve for Battery Failure against pets",
+           xlab = "Time (Total Cleaning Time)",
+           ylab = "Survival Probability")
+
+#Plot for Battery against carpet 
+
+ggsurvplot(km_battery_carpet, conf.int = FALSE, 
+           title = "Kaplan-Meier Curve for Battery Failure against Carpet score",
+           xlab = "Time (Total Cleaning Time)",
+           ylab = "Survival Probability")
+
+
+#Plot for Impact against pets 
+
+ggsurvplot(km_impact_pets, conf.int = TRUE, 
+           title = "Kaplan-Meier Curve for Impact Failure against pets",
+           xlab = "Time (Total Cleaning Time)",
+           ylab = "Survival Probability")
+
+#Plot for Impact against carpet
+
+ggsurvplot(km_impact_carpet, conf.int = FALSE, 
+           title = "Kaplan-Meier Curve for Impact Failure against Carpet score",
+           xlab = "Time (Total Cleaning Time)",
+           ylab = "Survival Probability")
+
+#Plot for IR against pets 
+
+ggsurvplot(km_ir_pets, conf.int = TRUE, 
+           title = "Kaplan-Meier Curve for IR Failure against pets",
+           xlab = "Time (Total Cleaning Time)",
+           ylab = "Survival Probability")
+
+#Plot for IR against carpets 
+
+ggsurvplot(km_ir_carpet, conf.int = FALSE, 
+           title = "Kaplan-Meier Curve for IR Failure against carpet score",
+           xlab = "Time (Total Cleaning Time)",
+           ylab = "Survival Probability")
 
 
 # Perform log-rank test to compare survival curves
